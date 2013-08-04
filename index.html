@@ -1,9 +1,97 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<link rel="stylesheet" type="text/css" href="res/stylesheet.css">
-	</head>
-	<body>
-		<p>My name is Lynnea, and I haven't made my site yet :(</p>
-	</body>
+<head>
+<title>Lynnea Tan</title>
+<link rel="stylesheet" type="text/css" href="res/stylesheet.css">
+<link href='http://fonts.googleapis.com/css?family=Parisienne|Great+Vibes|Rochester|Dawning+of+a+New+Day|Sacramento' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<style>
+body{
+	margin: 0px;
+	padding: 0px;
+}
+
+#background{
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+#text{
+	font-family: 'Sacramento', serif;
+	text-shadow: 4px 4px 4px #000;
+	color: #FFF;
+	position: fixed;
+	top: 200px;
+	left: 100px;
+}
+
+#text h1{
+	font-size: 5em;
+	margin: 5px;
+}
+
+#text h2{
+	font-size: 2em;
+	margin: 5px;
+}
+
+.image-tile{
+	margin: 0px;
+	padding: 0px;
+	display: block;
+	float: left;
+	overflow: hidden;
+}
+</style>
+</head>
+<body>
+	<div id="background">
+	</div>
+	<div id="text">
+		<h1>Lynnea Tan</h1>
+		<h2>Photography</h2>
+	</div>
+	<!-- Here is some code that runs once the page has been loaded -->
+	<script>
+	// We wait to make sure the page (AKA the document) is fully loaded before running the code
+	$(document).ready(function(){
+		var apiKey = '83aa75da8aee1b89f05c30be8c1caf9f'
+		var lynneasId = '60958051@N02'
+
+		// Get the list of last ten photos
+		$.ajax({
+			url:'http://api.flickr.com/services/rest/?&method=flickr.people.getPublicPhotos&api_key=' + apiKey + '&user_id=' + lynneasId + '&format=json&jsoncallback=?',
+			dataType: 'json'
+		}).done(function(data){
+			console.log(data);
+
+			var randIndex = Math.floor(Math.random()*10);
+			var randPhotoObj = data.photos.photo[randIndex];
+
+			var h = $(window).height();
+			var w = $(window).width();
+			var ph = 150;
+			var pw = 150;
+			numh = Math.ceil(h/ph);
+			numw = Math.ceil(w/pw);
+
+			nump = numh * numw;
+
+			for(var i=0; i < nump; i++){
+				var randIndex = Math.floor(Math.random()*data.photos.perpage);
+				var randPhotoObj = data.photos.photo[randIndex];
+				var photoURL = 'http://farm'+randPhotoObj.farm+'.staticflickr.com/'+randPhotoObj.server+'/'+randPhotoObj.id+'_'+randPhotoObj.secret+'_q.jpg';
+				var photoLink = 'http://www.flickr.com/photos/'+randPhotoObj.owner+'/'+randPhotoObj.id;
+				var img = $("<img class='image-tile'>");
+				img.attr('src',photoURL);
+				img.attr('href',photoLink);
+				img.appendTo('#background');
+			}
+
+		}).fail(function(data){
+			console.log(data);
+		})
+	})
+	</script>
+</body>
 </html>
