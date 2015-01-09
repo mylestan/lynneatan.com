@@ -1,97 +1,213 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Lynnea Tan</title>
-<link rel="stylesheet" type="text/css" href="res/stylesheet.css">
-<link href='http://fonts.googleapis.com/css?family=Parisienne|Great+Vibes|Rochester|Dawning+of+a+New+Day|Sacramento' rel='stylesheet' type='text/css'>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<style>
-body{
-	margin: 0px;
-	padding: 0px;
-}
-
-#background{
-	margin: 0px;
-	padding: 0px;
-	overflow: hidden;
-}
-#text{
-	font-family: 'Sacramento', serif;
-	text-shadow: 4px 4px 4px #000;
-	color: #FFF;
-	position: fixed;
-	top: 200px;
-	left: 100px;
-}
-
-#text h1{
-	font-size: 5em;
-	margin: 5px;
-}
-
-#text h2{
-	font-size: 2em;
-	margin: 5px;
-}
-
-.image-tile{
-	margin: 0px;
-	padding: 0px;
-	display: block;
-	float: left;
-	overflow: hidden;
-}
-</style>
-</head>
-<body>
-	<div id="background">
-	</div>
-	<div id="text">
-		<h1>Lynnea Tan</h1>
-		<h2>Photography</h2>
-	</div>
-	<!-- Here is some code that runs once the page has been loaded -->
-	<script>
-	// We wait to make sure the page (AKA the document) is fully loaded before running the code
-	$(document).ready(function(){
-		var apiKey = '83aa75da8aee1b89f05c30be8c1caf9f'
-		var lynneasId = '60958051@N02'
-
-		// Get the list of last ten photos
-		$.ajax({
-			url:'http://api.flickr.com/services/rest/?&method=flickr.people.getPublicPhotos&api_key=' + apiKey + '&user_id=' + lynneasId + '&format=json&jsoncallback=?',
-			dataType: 'json'
-		}).done(function(data){
-			console.log(data);
-
-			var randIndex = Math.floor(Math.random()*10);
-			var randPhotoObj = data.photos.photo[randIndex];
-
-			var h = $(window).height();
-			var w = $(window).width();
-			var ph = 150;
-			var pw = 150;
-			numh = Math.ceil(h/ph);
-			numw = Math.ceil(w/pw);
-
-			nump = numh * numw;
-
-			for(var i=0; i < nump; i++){
-				var randIndex = Math.floor(Math.random()*data.photos.perpage);
-				var randPhotoObj = data.photos.photo[randIndex];
-				var photoURL = 'http://farm'+randPhotoObj.farm+'.staticflickr.com/'+randPhotoObj.server+'/'+randPhotoObj.id+'_'+randPhotoObj.secret+'_q.jpg';
-				var photoLink = 'http://www.flickr.com/photos/'+randPhotoObj.owner+'/'+randPhotoObj.id;
-				var img = $("<img class='image-tile'>");
-				img.attr('src',photoURL);
-				img.attr('href',photoLink);
-				img.appendTo('#background');
-			}
-
-		}).fail(function(data){
-			console.log(data);
-		})
-	})
-	</script>
-</body>
+	<head>
+		<style type = "text/css">
+		
+		body {
+			width: 100%;
+			min-height: 100vh;
+			margin: 0;
+			font-family: 'Avenir Next Condensed';
+			color: #2D2F33;
+		}
+		
+		#page {
+			width: 100%;
+			min-height: 100vh;
+		}
+		
+		#title p {
+			font-size: 2.8em;
+			margin-bottom: 3px;
+			padding-left: 15px;
+			
+		}
+		
+		#navigation {
+			position: fixed;
+			left: 0;
+			right: 0;
+			width: 18%;
+			min-height: 100vh;
+			float: left;
+			border-right: 1px solid #2D2F33;
+			color: #E9F1FF;
+			background-color: #2D2F33 ;
+		}
+		
+		#navigation ul {
+			padding: 0;
+		}
+		
+		#navigation li{
+			padding: 0;
+		}
+		#navigation a{
+			text-decoration: none;
+			color: #E9F1FF;
+			padding-left: 15px;
+			font-size: 23px;
+			font-weight: 300;
+		}
+		
+		.space {
+			height: 10px;
+			width: 100%;
+			background-color: #2D2F33;
+		}
+		
+		#content {
+			width: 82%;
+			height: 100%;
+			float: right;
+			background-color: #FFF;
+		}
+		
+		#content h2 {
+			margin: 10px;
+			margin-bottom: 0px;
+			margin-top: 0px;
+			font-size: 5em;
+			font-weight: 500;
+		}
+		#content p {
+			margin: 10px;
+		}
+		
+		.header-picture-container {
+			max-height: 350px;
+			overflow-y: hidden;
+		}
+		
+		.header-picture {
+			width: 100%;
+		}
+		
+		.divider {
+			background-color: #000;
+			width: 40%;
+			height: 1px;
+			margin-left: 10px;
+			margin-bottom:5px;
+		}
+		
+		.section{
+			width: 100%;
+			min-height: 100vh;
+		}
+		.section-content p1 {
+			padding: 10px;
+		}
+		</style>
+		
+	</head>
+	
+	<body>
+		<div id= "page" > 
+			
+			<div id= "navigation" >
+				<div id= "title" >
+					<p> LYNNEA TAN </p>
+					<hr>
+				</div>
+				
+				<div id= "links" >
+					<ul>
+						<div class = "space"> </div>
+						<div class = "space"> </div>
+						<li><a href="#home" class ="link" > HOME </a></li>
+						<div class = "space"> </div>
+						<li><a href="#resume" class ="link" > RESUME </a></li>
+						<div class = "space"> </div>
+						<li><a href="#projects" class ="link" > PROJECTS </a></li>
+						<div class = "space"> </div>
+						<li><a href="#photography" class ="link" > PHOTOGRAPHY </a></li>
+						<div class = "space"> </div>
+						<li><a href="#contact" class ="link" > CONTACT </a></li>
+					</ul>
+				</div>	
+			</div>
+			
+			<div id= "content" >
+				<div class = "section" id = "home" >
+						<div class = "header-picture-container">
+							<img class = "header-picture" src= "https://farm6.staticflickr.com/5479/9489396963_7f3875fe5c_h.jpg"></img>
+						</div>
+						
+						<div class = "section-content">
+							<h2>About Me</h2>
+							<p>Hi there,</p>
+							<p>My name is Lynnea Tan and I am a 1B Biomedical Engineering student 							at the university of Waterloo. My passions lies in the development and ideation of medical and sports technology. </p>
+							<p>I am constantly seeking new opportunities to working the medical and sports field, so please feel free to message me if you are intersted.</p>
+						</div>
+				</div>
+				
+				<div class = "section" id = "resume" >
+						<div class = "header-picture-container">
+							<img class= "header-picture"src= "https://m1.behance.net/rendition/modules/104721737/disp/c7a22357beef5bb2cc1045c809ee9913.jpg" ></img>
+						</div>
+						
+						<div class = "section-content">
+							<h2> MY RESUME </h2>
+						</div>
+				</div>
+				
+				<div class = "section" id = "projects" >
+						<div class = "header-picture-container">
+							<img class = "header-picture" src = "https://farm4.staticflickr.com/3839/14887483785_5217193be6_h.jpg" ></img>
+						</div>
+						
+						<div class = "section-content">
+							<h2> Projects </h2>
+							<p1>ExoGear</p1>
+							<p></p>
+						</div>
+				</div>
+				
+				<div class = "section" id = "photography" >
+						<div class = "header-picture-container">
+							<img class = "header-picture" src= "https://farm8.staticflickr.com/7294/8744036761_dcfcedbf79_h.jpg"></img>
+						</div>
+						
+						<div class = "section-content">
+							<h2> Photography </h2>
+							<p>My other passion for the past three years has been photography. Feel free to connect with me on flickr or check out my work here.</p>
+							<p>https://www.flickr.com/photos/lynneatan/</p>
+						</div>
+				</div>
+				
+				<div class = "section" id = "contact" >
+						<div class = "header-picture-container">
+							<img class = "header-picture"src= "https://farm6.staticflickr.com/5575/14181703215_30d7b2f986_h.jpg" ></img>
+						</div>
+						
+						<div class = "section-content">
+							<h2> Contact</h2>
+							<div class = "divider"> </div>
+							<p1> Email </p1>
+							<p> lynneatan@gmail.com </p>
+							<p></p>
+							<div class = "divider"> </div>
+							<p> </p>
+							<p1>Phone </p1>
+							<p> 1 (519) - 741 - 4632 </p>
+							<p></p>
+							<div class = "divider"> </div>
+							<p>LinkedIn</p>
+							<p>https://www.linkedin.com/profile/preview?vpa=pub&locale=en_US</p>
+						</div>
+				</div>
+			</div>
+			
+		</div>
+		
+	</body>
+	<!--<script> 
+		var apikey = "a636e25e09540fcff8b61900f91560eb"
+		var lynneasID = '60958051@N02'
+	
+		$.ajax
+	
+	</script>-->
+	
 </html>
